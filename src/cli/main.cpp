@@ -1,6 +1,6 @@
-#include <iostream>
+#include "cli/parser.h"
 
-int main() {
-  std::cout << "Hello, World!";
+int main(int argc, char *argv[]) {
+  processArgs(argc, argv);
   return 0;
 }
