@@ -9,7 +9,9 @@ project(wftcli LANGUAGES CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable( ${PROJECT_NAME}
-    src/main.cpp
+  src/cli/main.cpp
+  src/cli/parser.cpp
 )
 
+target_include_directories(wftcli PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -Wall -Wextra)
