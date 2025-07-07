@@ -23,6 +23,9 @@
           clang-tools # Extra tools: clang-format, clang-tidy, etc.
           lldb # LLVM debugger
           gdb # GNU debugger for comparison
+          meson
+          ninja
+          openssl
         ];
 
         shellHook = ''

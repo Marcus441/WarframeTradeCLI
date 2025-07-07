@@ -2,3 +2,6 @@
 result
 build
 .cache
+
+/third_party/*
+!/third_party/.gitkeep

@@ -1,18 +1,36 @@
 cmake_minimum_required(VERSION 3.31.7)
 
+project(wftcli LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-project(wftcli LANGUAGES CXX)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable( ${PROJECT_NAME}
+# Set third_party for FetchContent
+set(FETCHCONTENT_BASE_DIR ${CMAKE_SOURCE_DIR}/third_party)
+
+include(FetchContent)
+
+FetchContent_Declare(
+  cpr
+  GIT_REPOSITORY https://github.com/libcpr/cpr.git
+  GIT_TAG        1.12.0
+)
+
+FetchContent_MakeAvailable(cpr)
+
+# Build executable
+add_executable(${PROJECT_NAME}
   src/cli/main.cpp
   src/cli/parser.cpp
   src/util/echoArgs.cpp
 )
 
-target_include_directories(wftcli PRIVATE ${CMAKE_SOURCE_DIR}/include)
+# Include paths and compiler flags
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -Wall -Wextra)
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE cpr::cpr)
+
