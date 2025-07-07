@@ -1,42 +1,25 @@
 #include "cli/parser.h"
 
-#include <cstdlib>
 #include <functional>
-#include <iostream>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
-void echoArgs(int argc, char *argv[]) {
-  std::cout << "argc: " << argc << '\n';
-  for (int i = 0; i < argc; ++i) {
-    std::cout << "argv[" << i << "]: " << argv[i] << '\n';
-  }
-}
-
-void processArgs(int argc, char *argv[]) {
+CliOptions processArgs(int argc, char *argv[]) {
+  CliOptions options;
   std::unordered_map<std::string, std::function<void(int &)>> argMap = {
 
-      {"-v",
-       [&](int &) {
-         std::cout << "version 0.0.1\n";
-         exit(0);
-       }},
+      {"-v", [&](int &) { options.show_version = true; }},
       {"--version", [&](int &i) { argMap["-v"](i); }},
-      {"-e",
-       [&](int &) {
-         echoArgs(argc, argv);
-         exit(0);
-       }},
+      {"-e", [&](int &) { options.echo = true; }},
       {"--echo", [&](int &i) { argMap["-e"](i); }},
       {"-s",
        [&](int &i) {
-         if (i + 1 >= argc) {
-           std::cout << "Missing argument for -s/--search" << '\n';
-           exit(1);
+         if (i + 1 >= argc || argv[i + 1] == nullptr) {
+           throw std::runtime_error("Missing argument for -s/--search");
          }
-         std::string query = argv[i + 1];
-         std::cout << "Searching for: " << query << ".\n";
-         exit(0);
+         options.has_search = true;
+         options.search_query = argv[++i];
        }}
 
   };
@@ -47,7 +30,9 @@ void processArgs(int argc, char *argv[]) {
     if (currentArg != argMap.end()) {
       currentArg->second(i);
     } else {
-      std::cerr << "Unknown argument: " << userArgString << ".\n";
+      throw std::runtime_error("Unknown argument: " + userArgString);
     }
   }
+
+  return options;
 }
