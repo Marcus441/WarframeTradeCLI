@@ -11,6 +11,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable( ${PROJECT_NAME}
   src/cli/main.cpp
   src/cli/parser.cpp
+  src/util/echoArgs.cpp
 )
 
 target_include_directories(wftcli PRIVATE ${CMAKE_SOURCE_DIR}/include)
