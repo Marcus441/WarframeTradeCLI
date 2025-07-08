@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(json)
 
 # Build executable
 add_executable(${PROJECT_NAME}
-  src/cli/main.cpp
+  src/main.cpp
   src/cli/parser.cpp
   src/util/echoArgs.cpp
 )
