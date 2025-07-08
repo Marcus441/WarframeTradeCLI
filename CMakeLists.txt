@@ -17,8 +17,13 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/libcpr/cpr.git
   GIT_TAG        1.12.0
 )
+FetchContent_Declare(
+  json 
+  URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+)
 
 FetchContent_MakeAvailable(cpr)
+FetchContent_MakeAvailable(json)
 
 # Build executable
 add_executable(${PROJECT_NAME}
@@ -33,4 +38,4 @@ target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -Wall -Wextra)
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE cpr::cpr)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

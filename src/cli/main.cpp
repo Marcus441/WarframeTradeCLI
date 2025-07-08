@@ -4,11 +4,11 @@
 
 #include <exception>
 #include <iostream>
+#include <string>
 
 int main(int argc, char *argv[]) {
 
   CliOptions options;
-
   // args are processed here
   try {
     options = processArgs(argc, argv);
