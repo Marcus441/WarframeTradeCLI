@@ -33,9 +33,20 @@ add_executable(${PROJECT_NAME}
   src/core/market_api.cpp
 )
 
-# Include paths and compiler flags
+# Include paths 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+# Compiler flags
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -Wall -Wextra)
+
+# Include paths for third party libraries 
+get_target_property(CPR_INCLUDE_DIR cpr::cpr INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(JSON_INCLUDE_DIR nlohmann_json::nlohmann_json INTERFACE_INCLUDE_DIRECTORIES)
+
+target_include_directories(${PROJECT_NAME}
+  SYSTEM PRIVATE
+    ${CPR_INCLUDE_DIR}
+    ${JSON_INCLUDE_DIR}
+)
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE cpr::cpr)

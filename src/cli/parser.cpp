@@ -34,12 +34,12 @@ CliOptions processArgs(int argc, char *argv[]) {
   };
 
   for (int i = 1; i < argc; ++i) {
-    std::string userArgString = argv[i];
-    auto currentArg = argMap.find(userArgString);
-    if (currentArg != argMap.end()) {
-      currentArg->second(i);
+    std::string currentArg = argv[i];
+    auto it = argMap.find(currentArg);
+    if (it != argMap.end()) {
+      it->second(i);
     } else {
-      throw std::runtime_error("Unknown argument: " + userArgString);
+      throw std::runtime_error("Unknown argument: " + currentArg);
     }
   }
 

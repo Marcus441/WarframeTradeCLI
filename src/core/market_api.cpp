@@ -1,13 +1,10 @@
 #include "core/market_api.h"
 
-#include "cpr/api.h"
-#include "cpr/cprtypes.h"
-#include "cpr/response.h"
-#include "nlohmann/json_fwd.hpp"
-
-#include <nlohmann/json.hpp>
-
+#include <cpr/api.h>
+#include <cpr/cprtypes.h>
+#include <cpr/response.h>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <string>
 
 using json = nlohmann::json;
