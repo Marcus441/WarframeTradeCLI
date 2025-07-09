@@ -20,7 +20,16 @@ CliOptions processArgs(int argc, char *argv[]) {
          }
          options.has_search = true;
          options.search_query = argv[++i];
-       }}
+       }},
+      {"-o",
+       [&](int &i) {
+         if (i + 1 >= argc || argv[i + 1] == nullptr) {
+           throw std::runtime_error("Missing argument for -o/--orders");
+         }
+         options.has_search_orders = true;
+         options.search_query = argv[++i];
+       }},
+      {"--orders", [&](int &i) { argMap["-o"](i); }}
 
   };
 

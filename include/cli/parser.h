@@ -7,6 +7,7 @@ struct CliOptions {
   bool show_version = false;
   bool echo = false;
   bool has_search = false;
+  bool has_search_orders = false;
 };
 
 void echoArgs(int argc, char *argv[]);

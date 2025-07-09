@@ -1,5 +1,7 @@
 // main file;
 #include "cli/parser.h"
+
+#include "core/market_api.h"
 #include "util/echoArgs.h"
 
 #include <exception>
@@ -27,7 +29,12 @@ int main(int argc, char *argv[]) {
   }
   if (options.has_search) {
     if (!options.search_query.empty()) {
-      std::cout << "Searching: " << options.search_query << '\n';
+      searchItem(options.search_query);
+    }
+  }
+  if (options.has_search_orders) {
+    if (!options.search_query.empty()) {
+      searchItemOrders(options.search_query);
     }
   }
 
