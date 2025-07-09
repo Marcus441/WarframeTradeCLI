@@ -30,6 +30,7 @@ add_executable(${PROJECT_NAME}
   src/main.cpp
   src/cli/parser.cpp
   src/util/echoArgs.cpp
+  src/core/market_api.cpp
 )
 
 # Include paths and compiler flags
