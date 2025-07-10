@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
   }
   if (options.echo) {
     echoArgs(argc, argv);
+    return 0;
   }
   if (!options.search_query.empty()) {
     if (options.has_search) {
@@ -34,6 +35,7 @@ int main(int argc, char *argv[]) {
     if (options.has_search_orders) {
       searchItemOrders(options.search_query);
     }
+    return 0;
   }
 
   return 0;

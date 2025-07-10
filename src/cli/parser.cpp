@@ -18,12 +18,17 @@ CliOptions processArgs(int argc, char *argv[]) {
          if (i + 1 >= argc || argv[i + 1] == nullptr) {
            throw std::runtime_error("Missing argument for -s/--search");
          }
+
+         std::string next = argv[i + 1];
+         if (next.empty()) {
+           throw std::runtime_error("Null search query not allowed");
+         }
          if (!options.search_query.empty()) {
            throw std::runtime_error("Multiple search queries specified.");
          }
+
          options.has_search = true;
-         std::string next = argv[i + 1];
-         if (next != "-o" && next != "--orders") {
+         if (!next.starts_with('-')) {
            options.search_query = argv[++i];
          }
        }},
@@ -33,12 +38,17 @@ CliOptions processArgs(int argc, char *argv[]) {
          if (i + 1 >= argc || argv[i + 1] == nullptr) {
            throw std::runtime_error("Missing argument for -o/--orders");
          }
+
+         std::string next = argv[i + 1];
+         if (next.empty()) {
+           throw std::runtime_error("Null search query not allowed");
+         }
          if (!options.search_query.empty()) {
            throw std::runtime_error("Multiple search queries specified.");
          }
+
          options.has_search_orders = true;
-         std::string next = argv[i + 1];
-         if (next != "-s" && next != "--search") {
+         if (!next.starts_with('-')) {
            options.search_query = argv[++i];
          }
        }},
