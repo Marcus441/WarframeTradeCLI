@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
       searchItem(options.search_query);
     }
     if (options.has_search_orders) {
-      searchItemOrders(options.search_query);
+      searchItemOrders(options.order_query);
     }
     return 0;
   }

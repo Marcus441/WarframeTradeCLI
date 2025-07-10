@@ -4,6 +4,7 @@
 
 struct CliOptions {
   std::string search_query;
+  std::string order_query;
   bool show_version = false;
   bool echo = false;
   bool has_search = false;

@@ -15,7 +15,8 @@ CliOptions processArgs(int argc, char *argv[]) {
       {"--echo", [&](int &i) { argMap["-e"](i); }},
       {"-s",
        [&](int &i) {
-         if (i + 1 >= argc || argv[i + 1] == nullptr) {
+         if (i + 1 >= argc || argv[i + 1] == nullptr ||
+             std::string(argv[i + 1]).starts_with('-')) {
            throw std::runtime_error("Missing argument for -s/--search");
          }
 
@@ -23,19 +24,15 @@ CliOptions processArgs(int argc, char *argv[]) {
          if (next.empty()) {
            throw std::runtime_error("Null search query not allowed");
          }
-         if (!options.search_query.empty()) {
-           throw std::runtime_error("Multiple search queries specified.");
-         }
 
          options.has_search = true;
-         if (!next.starts_with('-')) {
-           options.search_query = argv[++i];
-         }
+         options.search_query = argv[++i];
        }},
       {"--search", [&](int &i) { argMap["-s"](i); }},
       {"-o",
        [&](int &i) {
-         if (i + 1 >= argc || argv[i + 1] == nullptr) {
+         if (i + 1 >= argc || argv[i + 1] == nullptr ||
+             std::string(argv[i + 1]).starts_with('-')) {
            throw std::runtime_error("Missing argument for -o/--orders");
          }
 
@@ -43,14 +40,9 @@ CliOptions processArgs(int argc, char *argv[]) {
          if (next.empty()) {
            throw std::runtime_error("Null search query not allowed");
          }
-         if (!options.search_query.empty()) {
-           throw std::runtime_error("Multiple search queries specified.");
-         }
 
          options.has_search_orders = true;
-         if (!next.starts_with('-')) {
-           options.search_query = argv[++i];
-         }
+         options.order_query = argv[++i];
        }},
       {"--orders", [&](int &i) { argMap["-o"](i); }}
 
