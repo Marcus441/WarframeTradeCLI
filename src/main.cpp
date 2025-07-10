@@ -27,13 +27,11 @@ int main(int argc, char *argv[]) {
   if (options.echo) {
     echoArgs(argc, argv);
   }
-  if (options.has_search) {
-    if (!options.search_query.empty()) {
+  if (!options.search_query.empty()) {
+    if (options.has_search) {
       searchItem(options.search_query);
     }
-  }
-  if (options.has_search_orders) {
-    if (!options.search_query.empty()) {
+    if (options.has_search_orders) {
       searchItemOrders(options.search_query);
     }
   }

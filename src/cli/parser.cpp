@@ -18,16 +18,29 @@ CliOptions processArgs(int argc, char *argv[]) {
          if (i + 1 >= argc || argv[i + 1] == nullptr) {
            throw std::runtime_error("Missing argument for -s/--search");
          }
+         if (!options.search_query.empty()) {
+           throw std::runtime_error("Multiple search queries specified.");
+         }
          options.has_search = true;
-         options.search_query = argv[++i];
+         std::string next = argv[i + 1];
+         if (next != "-o" && next != "--orders") {
+           options.search_query = argv[++i];
+         }
        }},
+      {"--search", [&](int &i) { argMap["-s"](i); }},
       {"-o",
        [&](int &i) {
          if (i + 1 >= argc || argv[i + 1] == nullptr) {
            throw std::runtime_error("Missing argument for -o/--orders");
          }
+         if (!options.search_query.empty()) {
+           throw std::runtime_error("Multiple search queries specified.");
+         }
          options.has_search_orders = true;
-         options.search_query = argv[++i];
+         std::string next = argv[i + 1];
+         if (next != "-s" && next != "--search") {
+           options.search_query = argv[++i];
+         }
        }},
       {"--orders", [&](int &i) { argMap["-o"](i); }}
 
