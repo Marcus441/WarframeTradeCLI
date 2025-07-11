@@ -29,8 +29,9 @@ FetchContent_MakeAvailable(json)
 add_executable(${PROJECT_NAME}
   src/main.cpp
   src/cli/parser.cpp
-  src/util/echoArgs.cpp
   src/core/market_api.cpp
+  src/util/echoArgs.cpp
+  src/util/printJson.cpp
 )
 
 # Include paths 

@@ -3,6 +3,7 @@
 
 #include "core/market_api.h"
 #include "util/echoArgs.h"
+#include "util/printJson.h"
 
 #include <exception>
 #include <iostream>
@@ -28,12 +29,13 @@ int main(int argc, char *argv[]) {
     echoArgs(argc, argv);
     return 0;
   }
-  if (!options.search_query.empty()) {
+  if (!options.search_query.empty() || !options.order_query.empty()) {
     if (options.has_search) {
-      searchItem(options.search_query);
+      json result = searchItem(options.search_query);
+      printSearch(result);
     }
     if (options.has_search_orders) {
-      searchItemOrders(options.order_query);
+      std::cout << searchItemOrders(options.order_query).dump(4);
     }
     return 0;
   }
