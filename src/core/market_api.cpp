@@ -15,7 +15,6 @@ using json = nlohmann::json;
 
 void handleErrors(const cpr::Response r);
 
-// TODO: Handle invalid response
 // TODO: Sort json array. Needs to somehow be processed out of a json array so
 // that items are not printed per platform
 constexpr const char *MARKET_URL = "https://api.warframe.market/v1";
@@ -35,9 +34,7 @@ json searchItemOrders(const std::string &query,
   for (const auto &platform : platformQuery) {
     cpr::Url url = std::string(MARKET_URL) + "/items/" + query + "/orders";
     cpr::Response r = cpr::Get(url, cpr::Header{{"Platform", platform}});
-    if (r.status_code != 200) {
-      handleErrors(r);
-    }
+    handleErrors(r);
     data.push_back(json::parse(r.text));
   }
   return data;
