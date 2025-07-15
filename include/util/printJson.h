@@ -4,5 +4,5 @@
 
 using json = nlohmann::json;
 
-void printSearch(json &data);
-void printOrders(json &data);
+void printSearch(const json &data);
+void printOrders(const json &data);

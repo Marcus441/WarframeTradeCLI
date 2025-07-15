@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
     if (options.has_search_orders) {
       json result =
           searchItemOrders(options.order_query, options.platform_query);
+      printOrders(result);
     }
     return 0;
   }
