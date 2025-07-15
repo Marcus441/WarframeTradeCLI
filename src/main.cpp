@@ -36,13 +36,23 @@ int main(int argc, char *argv[]) {
       options.platform_query.emplace_back("pc");
     }
     if (options.has_search) {
-      json result = searchItem(options.search_query);
-      printSearch(result);
+      try {
+        json result = searchItem(options.search_query);
+        printSearch(result);
+      } catch (const std::exception &e) {
+        std::cerr << e.what();
+        return 1;
+      }
     }
     if (options.has_search_orders) {
-      json result =
-          searchItemOrders(options.order_query, options.platform_query);
-      printOrders(result);
+      try {
+        json result =
+            searchItemOrders(options.order_query, options.platform_query);
+        printOrders(result);
+      } catch (const std::exception &e) {
+        std::cerr << e.what();
+        return 1;
+      }
     }
     return 0;
   }
