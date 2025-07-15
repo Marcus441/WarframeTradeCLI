@@ -5,5 +5,6 @@
 
 using json = nlohmann::json;
 
-json searchItem(std::string &query);
-json searchItemOrders(std::string &query);
+json searchItem(const std::string &query);
+json searchItemOrders(const std::string &query,
+                      const std::vector<std::string> &platforms);

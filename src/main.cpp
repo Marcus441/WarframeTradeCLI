@@ -8,6 +8,7 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <vector>
 
 int main(int argc, char *argv[]) {
 
@@ -30,12 +31,17 @@ int main(int argc, char *argv[]) {
     return 0;
   }
   if (!options.search_query.empty() || !options.order_query.empty()) {
+    // make pc the default platform
+    if (options.platform_query.empty()) {
+      options.platform_query.emplace_back("pc");
+    }
     if (options.has_search) {
       json result = searchItem(options.search_query);
       printSearch(result);
     }
     if (options.has_search_orders) {
-      std::cout << searchItemOrders(options.order_query).dump(4);
+      json result =
+          searchItemOrders(options.order_query, options.platform_query);
     }
     return 0;
   }

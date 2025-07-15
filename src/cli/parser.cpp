@@ -1,6 +1,7 @@
 #include "cli/parser.h"
 
 #include <functional>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -11,8 +12,7 @@ CliOptions processArgs(int argc, char *argv[]) {
 
       {"-v", [&](int &) { options.show_version = true; }},
       {"--version", [&](int &i) { argMap["-v"](i); }},
-      {"-e", [&](int &) { options.echo = true; }},
-      {"--echo", [&](int &i) { argMap["-e"](i); }},
+      {"--echo", [&](int &) { options.echo = true; }},
       {"-s",
        [&](int &i) {
          if (i + 1 >= argc || argv[i + 1] == nullptr ||
@@ -44,13 +44,35 @@ CliOptions processArgs(int argc, char *argv[]) {
          options.has_search_orders = true;
          options.order_query = argv[++i];
        }},
-      {"--orders", [&](int &i) { argMap["-o"](i); }}
+      {"--orders", [&](int &i) { argMap["-o"](i); }},
+      {"--platforms=",
+       [&](int &i) {
+         std::string argument = argv[i];
+         std::string values =
+             argument.substr(std::string("--platforms=").length());
+
+         std::istringstream platforms{values};
+         std::string token;
+         while (std::getline(platforms, token, ',')) {
+           if (VALID_PLATFORMS.contains(token)) {
+             options.platform_query.push_back(token);
+           } else {
+             throw std::runtime_error("Invalid platform: " + token);
+           }
+         }
+       }}
 
   };
 
   for (int i = 1; i < argc; ++i) {
     std::string currentArg = argv[i];
     auto it = argMap.find(currentArg);
+
+    // check for --platforms=<value> case
+    if (currentArg.starts_with("--platforms=")) {
+      it = argMap.find("--platforms=");
+    }
+
     if (it != argMap.end()) {
       it->second(i);
     } else {
