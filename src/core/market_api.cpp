@@ -27,13 +27,17 @@ json searchItem(const std::string &query) {
   return data;
 }
 
-// TODO: Use threads for this:
 json searchItemOrders(const std::string &query,
                       const std::vector<std::string> &platformQuery) {
-  json data = json::array();
+  std::vector<cpr::AsyncResponse> container{};
   for (const auto &platform : platformQuery) {
     cpr::Url url = std::string(MARKET_URL) + "/items/" + query + "/orders";
-    cpr::Response r = cpr::Get(url, cpr::Header{{"Platform", platform}});
+    container.emplace_back(
+        cpr::GetAsync(url, cpr::Header{{"Platform", platform}}));
+  }
+  json data = json::array();
+  for (cpr::AsyncResponse &ar : container) {
+    cpr::Response r = ar.get();
     handleErrors(r);
     data.push_back(json::parse(r.text));
   }
