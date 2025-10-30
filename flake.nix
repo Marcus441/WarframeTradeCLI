@@ -30,6 +30,7 @@
         shellHook = ''
           echo "🛠️  C++ dev shell with Clang"
           echo "🔧  Compiler: $("${pkgs.clang}/bin/clang" --version | head -n 1)"
+          echo "🔧  Compiler: $("${pkgs.gcc}/bin/gcc" --version | head -n 1)"
         '';
       };
       packages.wftcli = pkgs.stdenv.mkDerivation {
@@ -39,8 +40,8 @@
         src = ./.;
 
         nativeBuildInputs = with pkgs; [
-          gcc
           cmake
+          gcc
           pkg-config
         ];
         buildInputs = with pkgs; [
