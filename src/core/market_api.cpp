@@ -10,6 +10,7 @@
 #include <format>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 
 using json = nlohmann::json;
 
@@ -17,7 +18,7 @@ void handleErrors(const cpr::Response r);
 
 // TODO: Sort json array. Needs to somehow be processed out of a json array so
 // that items are not printed per platform
-constexpr const char *MARKET_URL = "https://api.warframe.market/v1";
+constexpr const std::string_view MARKET_URL = "https://api.warframe.market/v1";
 
 json searchItem(const std::string &query) {
   cpr::Url url = std::string(MARKET_URL) + "/items/" + query;
