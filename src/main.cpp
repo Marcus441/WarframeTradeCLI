@@ -1,9 +1,9 @@
 // main file;
 #include "cli/parser.h"
-
 #include "core/market_api.h"
 #include "util/echoArgs.h"
 #include "util/printJson.h"
+#include <tui/tui.h>
 
 #include <exception>
 #include <iostream>
@@ -11,6 +11,10 @@
 #include <vector>
 
 int main(int argc, char *argv[]) {
+
+  if (argc == 1) {
+    tui();
+  }
 
   CliOptions options;
   // args are processed here

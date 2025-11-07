@@ -16,15 +16,16 @@
         name = "C++ DevShell";
 
         buildInputs = with pkgs; [
-          cmake
           bear
+          cmake
+          cpr
+          curl
+          ftxui
           gdb
           meson
           ninja
-          openssl
           nlohmann_json
-          cpr
-          curl
+          openssl
         ];
 
         shellHook = ''
@@ -47,6 +48,7 @@
         buildInputs = with pkgs; [
           cpr
           curl
+          ftxui
           nlohmann_json
         ];
 
@@ -54,15 +56,30 @@
           "-DCMAKE_BUILD_TYPE=Release"
           "-DCPR_USE_SYSTEM_CURL=ON"
         ];
+      };
 
-        # buildPhase = ''
-        #   cmake -S . -B build $cmakeFlags
-        #   cmake --build build --parallel
-        # '';
-        #
-        # installPhase = ''
-        #   cmake --install build --prefix $out
-        # '';
+      packages.wftcli-debug = pkgs.stdenv.mkDerivation {
+        pname = "warframe-trade-cli-debug";
+        version = "0.0.1";
+
+        src = ./.;
+
+        nativeBuildInputs = with pkgs; [
+          cmake
+          gcc
+          pkg-config
+        ];
+        buildInputs = with pkgs; [
+          cpr
+          curl
+          ftxui
+          nlohmann_json
+        ];
+
+        cmakeFlags = [
+          "-DCMAKE_BUILD_TYPE=Debug"
+          "-DCPR_USE_SYSTEM_CURL=ON"
+        ];
       };
     });
 }
