@@ -25,22 +25,20 @@ void tui() {
 
   auto mainPanels = Renderer([&] {
     std::vector<Element> panels{};
-
-    std::vector<Element> horizontalPanels;
     if (state.showLeft)
-      horizontalPanels.push_back(text("Left Panel") | border | flex);
+      // if left panel is active while orders search, present the query for the
+      // orders here.
+      panels.push_back(window(text("Item"), text("TODO")) | flex);
     if (state.showMiddle)
-      horizontalPanels.push_back(text("Middle Panel") | border | flex);
+      // orders results goes here.
+      panels.push_back(window(text("Orders"), text("TODO: Orders go here")) |
+                       flex);
     if (state.showRight)
-      horizontalPanels.push_back(text("Right Panel") | border | flex);
-
-    Element content;
-    if (!horizontalPanels.empty())
-      content = hbox(horizontalPanels) | flex;
-    else
-      content = text("No panels visible") | center | flex;
-
-    return content;
+      // TODO: once ocr is implemented, store history of items here
+      panels.push_back(window(text("Recent Items"), text("TODO")) | flex);
+    if (panels.empty())
+      return text("No panels visible") | center | flex;
+    return hbox(std::move(panels)) | flex;
   });
 
   auto root = Container::Vertical({mainPanels, inputRenderer});
