@@ -1,8 +1,4 @@
 // main file;
-#include "cli/parser.h"
-#include "core/market_api.h"
-#include "util/echoArgs.h"
-#include "util/printJson.h"
 #include <tui/tui.h>
 
 #include <exception>
@@ -10,8 +6,12 @@
 #include <string>
 #include <vector>
 
-int main(int argc, char *argv[]) {
+#include "cli/parser.h"
+#include "core/market_api.h"
+#include "util/echoArgs.h"
+#include "util/printJson.h"
 
+int main(int argc, char *argv[]) {
   if (argc == 1) {
     tui();
   }
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   CliOptions options;
   // args are processed here
   try {
-    options = processArgs(argc, argv);
+    options = processCliArgs(argc, argv);
   } catch (const std::exception &e) {
     std::cerr << e.what();
     return 1;

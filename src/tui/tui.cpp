@@ -6,14 +6,19 @@
 #include <ftxui/screen/screen.hpp>
 #include <string>
 
+#include "tui/parser.h"
+
 using namespace ftxui;
+
 struct tuiState {
   bool showLeft = false;
   bool showMiddle = true;
   bool showRight = false;
 };
+
 void tui() {
   tuiState state;
+  TuiOptions commandState;
   auto screen = ScreenInteractive::Fullscreen();
 
   std::string command;
@@ -28,16 +33,15 @@ void tui() {
     if (state.showLeft)
       // if left panel is active while orders search, present the query for the
       // orders here.
-      panels.push_back(window(text("Item"), text("TODO")) | flex);
+      panels.push_back(window(text("[1] Item"), text(commandState.output)) |
+                       flex);
     if (state.showMiddle)
       // orders results goes here.
-      panels.push_back(window(text("Orders"), text("TODO: Orders go here")) |
-                       flex);
+      panels.push_back(window(text("[2] Orders"), text("TODO")) | flex);
     if (state.showRight)
       // TODO: once ocr is implemented, store history of items here
-      panels.push_back(window(text("Recent Items"), text("TODO")) | flex);
-    if (panels.empty())
-      return text("No panels visible") | center | flex;
+      panels.push_back(window(text("[3] Recent Items"), text("TODO")) | flex);
+    if (panels.empty()) return text("No panels visible") | center | flex;
     return hbox(std::move(panels)) | flex;
   });
 
@@ -62,6 +66,11 @@ void tui() {
     }
     if (event == Event::Character('/')) {
       inputRenderer->TakeFocus();
+      return true;
+    }
+    if (event == Event::Return) {
+      processTuiArgs(command, commandState);
+      handleTuiArgs(commandState);
       return true;
     }
     if (inputRenderer->Focused()) {

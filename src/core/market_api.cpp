@@ -4,10 +4,10 @@
 #include <cpr/cprtypes.h>
 #include <cpr/error.h>
 #include <cpr/response.h>
-#include <nlohmann/json.hpp>
-#include <nlohmann/json_fwd.hpp>
 
 #include <format>
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -53,14 +53,15 @@ void handleErrors(const cpr::Response r) {
 
   if (r.status_code != 200) {
     switch (r.status_code) {
-    case 404:
-      throw std::runtime_error("Status code 404 was returned, item not found. "
-                               "TIP: Check the name of the item, is it in the "
-                               "following format? \n \"rubico_prime_set\"");
-    default:
-      throw std::runtime_error(
-          std::format("Error code {} was returned", r.status_code));
-      break;
+      case 404:
+        throw std::runtime_error(
+            "Status code 404 was returned, item not found. "
+            "TIP: Check the name of the item, is it in the "
+            "following format? \n \"rubico_prime_set\"");
+      default:
+        throw std::runtime_error(
+            std::format("Error code {} was returned", r.status_code));
+        break;
     }
   }
 }

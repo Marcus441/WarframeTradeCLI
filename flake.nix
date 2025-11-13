@@ -17,6 +17,7 @@
 
         buildInputs = with pkgs; [
           bear
+          clang-tools
           cmake
           cpr
           curl

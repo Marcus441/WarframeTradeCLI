@@ -27,4 +27,4 @@ const std::unordered_set<std::string_view> VALID_PLATFORMS =
 // clang-format on
 
 void echoArgs(int argc, char *argv[]);
-CliOptions processArgs(int argc, char *argv[]);
+CliOptions processCliArgs(int argc, char *argv[]);

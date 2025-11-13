@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-CliOptions processArgs(int argc, char *argv[]) {
+CliOptions processCliArgs(int argc, char *argv[]) {
   CliOptions options;
   std::unordered_map<std::string, std::function<void(int &)>> argMap = {
 
