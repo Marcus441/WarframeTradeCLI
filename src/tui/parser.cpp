@@ -2,12 +2,16 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <fstream>
 #include <functional>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
 
 #include "core/market_api.h"
+
+std::ofstream logFile("search.log", std::ios::app);
 
 void processTuiArgs(std::string &input, TuiOptions &commandState) {
   std::unordered_map<std::string, std::function<void()>> commandMap = {
@@ -18,6 +22,12 @@ void processTuiArgs(std::string &input, TuiOptions &commandState) {
          if (searchQuery.empty()) {
            throw std::runtime_error("Missing argument for search");
          }
+         if (!searchQuery.empty() && searchQuery.front() == '"' &&
+             searchQuery.back() == '"') {
+           searchQuery = searchQuery.substr(1, searchQuery.size() - 2);
+         }
+         searchQuery.erase(0, searchQuery.find_first_not_of(" \t"));
+         searchQuery.erase(searchQuery.find_last_not_of(" \t") + 1);
          commandState.has_search = true;
          commandState.search_query = searchQuery;
        }}};
@@ -41,7 +51,7 @@ bool handleTuiArgs(TuiOptions &state) {
     if (state.has_search) {
       try {
         json result = searchItem(state.search_query);
-        state.output = result.dump();
+        state.output = result.dump(2);
       } catch (const std::exception &e) {
         state.reset();
         return false;

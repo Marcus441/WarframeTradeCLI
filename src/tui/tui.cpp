@@ -71,6 +71,7 @@ void tui() {
     if (event == Event::Return) {
       processTuiArgs(command, commandState);
       handleTuiArgs(commandState);
+      mainPanels->TakeFocus();
       return true;
     }
     if (inputRenderer->Focused()) {

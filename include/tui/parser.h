@@ -21,7 +21,6 @@ struct TuiOptions {
   std::vector<std::string> platform_query;
   std::string output = "";
   bool all_platforms = false;
-  bool show_version = false;
   bool has_search = false;
   bool has_search_orders = false;
 
@@ -30,7 +29,6 @@ struct TuiOptions {
     this->order_query = "";
     this->platform_query = {};
     this->all_platforms = false;
-    this->show_version = false;
     this->has_search = false;
     this->has_search_orders = false;
   };
